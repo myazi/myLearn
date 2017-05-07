@@ -1,2 +1,2 @@
 # myLearn
-machine learning 10 algorithm
+machine-learning
