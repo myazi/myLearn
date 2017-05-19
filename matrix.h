@@ -48,10 +48,10 @@ public:
     }
 
     /**
-    new��malloc�ı����������ڣ�ǰ������Զ�����ԣ������ǻ������ͻ��������ͣ��ṹ�����Ͷ����Կ�������
-    ʹ��new�ǻ���ö���Ĺ��캯������ʼ�����󣬼����ȵ÷����ڴ棬���ʼ���������ڴ������ڲ�ʵ�ֿ����ǵ���malloc
-    ��mallocֻ�Ƿ����ڴ棬���ڻ������Ͷ��ԣ�����û����ģ����ڿ��Լ�����ʼ���������ڶ�����ԣ�mallocֻ�����ڴ�
-    �����ù��캯�������Բ���Զ�����г�ʼ��
+    new和malloc的本质区别在于，前者是针对对象而言，无论是基本类型还是类类型，结构体类型都可以看作对象，
+    使用new是会调用对象的构造函数，初始化对象，即首先得分配内存，后初始化，分配内存这事内部实现可能是调用malloc
+    而malloc只是分配内存，对于基本类型而言，这是没问题的，后期可以继续初始化，而对于对象而言，malloc只分配内存
+    不调用构造函数，所以不会对对象进行初始化
     **/
 
     int initMatrix(Matrix *matrix,int col,int row)
@@ -105,7 +105,7 @@ public:
     }
     int copy(Matrix matrixA,Matrix *matrixB)
     {
-        if(!matrixB)//��Ӧ�ÿ���a
+        if(!matrixB)//还应该考虑a
         {
             cout<<"matrixB is null"<<endl;
             exit(-1);
@@ -151,6 +151,20 @@ public:
         }
         return oneCol;
     }
+    /**
+    下面这个获取一行的数据的方式可以避免当该函数放到循环中是，由于反复申请内存导致内存不足
+    **/
+    void getOneCol(Matrix oneCol,Matrix matrix,int iCol)
+    {
+        oneCol.row=matrix.row;
+        oneCol.col=1;
+        int i=0;
+        for(i=0; i<oneCol.row; i++)
+        {
+            oneCol.mat[0][i]=matrix.mat[iCol][i];
+        }
+    }
+    
     int deleteOneRow(Matrix *matrix,int iRow)
     {
         if(matrix->row==1)
@@ -169,7 +183,7 @@ public:
         matrix->row--;
         return 0;
     }
-    void transposematrix(Matrix matrix,Matrix *matrixT)//������ʽ��ת��
+    void transposematrix(Matrix matrix,Matrix *matrixT)//矩阵形式的转置
     {
         if(matrixT->col!=matrix.row||matrixT->row!=matrix.col)
         {
@@ -223,7 +237,7 @@ public:
         return 0;
     }
 
-    int multsmatrix(Matrix *multsMatrix,Matrix matrix1,Matrix matrix2)//������ʽ�����
+    int multsmatrix(Matrix *multsMatrix,Matrix matrix1,Matrix matrix2)//矩阵形式的相乘
     {
         if(matrix1.row!=matrix2.col||multsMatrix->col!=matrix1.col||multsMatrix->row!=matrix2.row)
         {
@@ -250,7 +264,7 @@ public:
         }
         return 0;
     }
-    //����ʽ
+    //行列式
     double detmatrix(Matrix matrix)
     {
         if(matrix.col!=matrix.row)
@@ -266,28 +280,28 @@ public:
         double max=MIN;
         int swap=-1;
         double temp;
-        double aij[MAX_MATRIX_COL][MAX_MATRIX_ROW];//�����þ���͸�����
-        for(k=0; k<matrixCopy.row-1; k++)//k��ʾ��k����Ԫ��һ����Ҫn-1��
+        double aij[MAX_MATRIX_COL][MAX_MATRIX_ROW];//这里用矩阵就更好了
+        for(k=0; k<matrixCopy.row-1; k++)//k表示第k次消元，一共需要n-1次
         {
             for(i=0; i<matrixCopy.col; i++)
             {
-                if(matrixCopy.mat[i][k]>max)//ÿһ����Ԫ���ǱȽϵ�k�е�Ԫ�أ�ѡ����k��������һ��
+                if(matrixCopy.mat[i][k]>max)//每一次消元都是比较第k列的元素，选出第k列中最大的一行
                 {
                     swap=i;
                 }
-            }//�ҵ���k������Ԫ��ȥ������е��±�
+            }//找到第k次列主元消去的最大行的下标
             if(swap==-1||matrixCopy.mat[swap][k]==0)
-                return -1;//�����ԪΪ0
+                return -1;//最大主元为0
             for(j=0; j<matrixCopy.row; j++)
             {
                 temp=matrixCopy.mat[k][j];
                 matrixCopy.mat[k][j]=matrixCopy.mat[swap][j];
                 matrixCopy.mat[swap][j]=temp;
-            }//��k����Ԫ��ѡ������һ����swap�У����k�н���
+            }//第k次消元，选出最大的一行是swap行，与第k行交换
             for(i=k+1; i<matrixCopy.col; i++)
             {
-                aij[i][k]=matrixCopy.mat[i][k]/matrixCopy.mat[k][k];// ��k����Ԫ����Ԫ��Ϊ��k�е�k�У��ѵ�k�����µ��ж�������Ԫ
-                for(j=k; j<matrixCopy.row; j++)//����k�����µ�ÿһ�е�ÿһ��Ԫ�ض���ȥ��������Ԫ���ӵĳ˻�
+                aij[i][k]=matrixCopy.mat[i][k]/matrixCopy.mat[k][k];// 第k次消元，主元素为第k行第k列，把第k行以下的行都进行消元
+                for(j=k; j<matrixCopy.row; j++)//对于k行以下的每一行的每一列元素都减去主行与消元因子的乘积
                 {
                     matrixCopy.mat[i][j]-=aij[i][k]*matrixCopy.mat[k][j];
                 }
@@ -300,7 +314,7 @@ public:
         cout<<"det="<<det<<endl;
         return det;
     }
-    //��˹��Ԫ��������,�ر�ע�⣬LU�ֽⲻ�ܽ�������ʽ�任
+    //高斯消元矩阵求逆,特别注意，LU分解不能进行行列式变换
     int nimatrix(Matrix *niMatrix,Matrix matrix)
     {
         if(matrix.col!=matrix.row)
@@ -308,7 +322,7 @@ public:
             cout<<"matrix ni is no "<<endl;
             exit(-1);
         }
-        if(detmatrix(matrix)==0)//�������������ʽ����������Ԫ��ȥ�ı��˲���������δ��ݲ��ı���һ������
+        if(detmatrix(matrix)==0)//这里调用求行列式进行了列主元消去改变了参数矩阵，如何传递不改变是一个问题
         {
             cout<<"matrix det is no so ni is no "<<endl;
             exit(-1);
@@ -327,12 +341,12 @@ public:
         initMatrix(&lMatrix,uMatrix.col,uMatrix.row);
         copy(matrix,&cpMatrix);
         double aij[MAX_MATRIX_COL][MAX_MATRIX_ROW];
-        for(k=0; k<matrix.row-1; k++)//k��ʾ��k����Ԫ��һ����Ҫn-1��
+        for(k=0; k<matrix.row-1; k++)//k表示第k次消元，一共需要n-1次
         {
             for(i=k+1; i<matrix.col; i++)
             {
-                aij[i][k]=matrix.mat[i][k]/matrix.mat[k][k];// ��k����Ԫ����Ԫ��Ϊ��k�е�k�У��ѵ�k�����µ��ж�������Ԫ
-                for(j=k; j<matrix.row; j++)//����k�����µ�ÿһ�е�ÿһ��Ԫ�ض���ȥ��������Ԫ���ӵĳ˻�
+                aij[i][k]=matrix.mat[i][k]/matrix.mat[k][k];// 第k次消元，主元素为第k行第k列，把第k行以下的行都进行消元
+                for(j=k; j<matrix.row; j++)//对于k行以下的每一行的每一列元素都减去主行与消元因子的乘积
                 {
                     matrix.mat[i][j]-=aij[i][k]*matrix.mat[k][j];
                 }
@@ -370,7 +384,7 @@ public:
         matrix.multsmatrix(&multsMatrix,lMatrix,uMatrix);
         cout<<"lu"<<endl;
         print(multsMatrix);
-        //����u��
+        //计算u逆
         for(j=0; j<uMatrix.row; j++)
         {
             for(i=j; i>=0; i--)
@@ -390,7 +404,7 @@ public:
         }
         cout<<"uniMatrix"<<endl;
         print(uniMatrix);
-        //����l��
+        //计算l逆
         for(j=0; j<lMatrix.row; j++)
         {
             for(i=0; i<lMatrix.col; i++)
@@ -419,7 +433,7 @@ public:
         print(multsMatrix);
         copy(cpMatrix,&matrix);
     }
-    int LDL(Matrix x)//�����LDL�ֽ⣬��֪���������ھ�������ֵ�������������
+    int LDL(Matrix x)//矩阵的LDL分解，不知道怎样用于矩阵特征值，特征向量求解
     {
         Matrix l;
         l.initMatrix(&l,x.col,x.row);
