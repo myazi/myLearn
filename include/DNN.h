@@ -1,7 +1,4 @@
-#ifndef DNN_H
-#define DNN_H
 #include "MatrixOpe.h"
-#define MAX_LAYER_N 1000
 
 struct parameters;
 
@@ -47,4 +44,3 @@ int DNN(Matrix X,Matrix Y,const char *optimizer,double learn_rateing,const char 
         int mini_batch_size,double beta1, double beta2, double epsilon, int iter, bool print_cost);
 
 int trainDNN();
-#endif

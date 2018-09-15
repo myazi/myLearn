@@ -1,5 +1,3 @@
-#include "MatrixOpe.h"
-
 struct CenAndDis;
 
 double distances(Matrix xOne,Matrix kCen);

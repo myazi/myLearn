@@ -1,10 +1,3 @@
-/***
-
-采用CART构成森林
-
-**/
-
-#include "MatrixOpe.h"
 struct twoSubData_R;
 
 struct split_R;

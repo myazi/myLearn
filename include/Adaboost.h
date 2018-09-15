@@ -1,9 +1,3 @@
-/***
-
-**/
-
-#include "MatrixOpe.h"
-
 struct twoSubData_A;
 
 struct Stump;

@@ -1,5 +1,3 @@
-#include "MatrixOpe.h"
-
 struct Par;
 
 double COV2(Matrix Sigma);

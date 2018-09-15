@@ -1,5 +1,3 @@
-#include "MatrixOpe.h"
-
 int autoNorm(Matrix x);
 
 Matrix cdistances(Matrix test,Matrix x);
