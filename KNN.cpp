@@ -1,4 +1,4 @@
-#include "KNN.h"
+#include "MatrixOpe.h"
 /***数据归一化处理，data[i][j]-min[j]/range[j]**/
 int autoNorm(Matrix x)
 {

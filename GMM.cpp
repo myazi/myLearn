@@ -1,4 +1,4 @@
-#include "GMM.h"
+#include "MatrixOpe.h"
 #define PI 3.1415926
 
 vector<double> Phi;

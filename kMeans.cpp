@@ -2,7 +2,7 @@
 Kmeans算法致命的就是聚成空类的出现，值得分析一下kmeans什么情况下会出现空类，
 该程序中未对此作处理，后面肯定还是会遇到这个问题的
 **/
-#include "kMeans.h"
+#include "MatrixOpe.h"
 #define MAX 1000000
 #define MIN -100000
 #define random(x) (rand()%x)

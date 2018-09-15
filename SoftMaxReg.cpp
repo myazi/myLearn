@@ -1,4 +1,4 @@
-#include "SoftMaxReg.h"
+#include "MatrixOpe.h"
 
 /**
 梯度下降算法，主要是确定负梯度方向，步长，采用迭代的思想迭代n至收敛，

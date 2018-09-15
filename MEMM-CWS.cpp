@@ -1,4 +1,4 @@
-#include "MEMM.h"
+#include "MatrixOpe.h"
 #define VEC_LEN 5000
 #define STATE 4
 #define double_min -1

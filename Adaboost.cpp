@@ -1,11 +1,7 @@
 /***
 
 **/
-
-#include "Adaboost.h"
-//#define MAX_SIZE_OF_TRAINING_SET 100
-//#define MAX_NUMIT 100
-//#define ATTR_NUM 22
+#include "MatrixOpe.h"
 #define MAX 1000000
 #define MIN -100000
 using namespace std;

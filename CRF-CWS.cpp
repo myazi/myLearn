@@ -1,4 +1,4 @@
-#include "CRF.h"
+#include "MatrixOpe.h"
 #define VEC_LEN 8000 //×î´ó×ÖµäÊý
 #define CI_LEN 1000000
 #define INDEX 8

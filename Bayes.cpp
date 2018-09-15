@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "Bayes.h"
-
+#include "MatrixOpe.h"
 #define CLASS_SUM 2
 #define X_RANGE 2  //X_RANGE 表示X的取值范围，由于采用one-hot编码，所以X的每一个分量的取值范围为0或1
 

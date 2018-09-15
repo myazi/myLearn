@@ -20,7 +20,7 @@ HMM模型中三个基本问题，概率计算问题，学习参数问题，预测问题。
 
 **/
 
-#include <HMM.h>
+#include "MatrixOpe.h"
 #define VEC_LEN 10000
 #define STATE 3
 #define T 1000

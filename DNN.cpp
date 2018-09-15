@@ -1,4 +1,5 @@
-#include "DNN.h"
+#include "MatrixOpe.h"
+#define MAX_LAYER_N 1000
 /**
 网络参数W,b其中Z,A是为了求解残差方便
 **/
