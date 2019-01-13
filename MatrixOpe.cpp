@@ -137,11 +137,24 @@ float sigmoid(float z)
 }
 Matrix one_hot(Matrix Y, int C)
 {
-    Matrix one_hot_Y(Y.row,C,0,"ss");
-    int i=0;
-    for(i=0;i<one_hot_Y.row;i++)
+   if(Y.row>Y.col)
     {
-        one_hot_Y.data[i][Y.data[i][0]]=1;
+        Matrix one_hot_Y(Y.row,C,0,"ss");
+        int i=0;
+        for(i=0; i<one_hot_Y.row; i++)
+        {
+            one_hot_Y.data[i][Y.data[i][0]]=1;
+        }
+        return one_hot_Y;
     }
-    return one_hot_Y;
+    else
+    {
+        Matrix one_hot_Y(C,Y.col,0,"ss");
+        int j=0;
+        for(j=0; j<one_hot_Y.col; j++)
+        {
+            one_hot_Y.data[Y.data[0][j]][j]=1;
+        }
+        return one_hot_Y;
+    }
 }
