@@ -1,46 +1,57 @@
 #ifndef Matrix_H
 #define Matrix_H
 #include "LoadData.h"
-using namespace std;
-class Matrix
+//#include "LoadData_new.h"
+namespace MLL
 {
-public:
-    Data data;
-    unsigned int row;
-    unsigned int col;
-public:
-    Matrix();
+	class Matrix
+	{
+	public:
+		Data _data;
+		size_t _row;
+		size_t _col;
+	public:
+		Matrix();
+		
+		~Matrix();
 
-    Matrix(unsigned int row, unsigned int col,float lamd, const string &type);
+		Matrix(const Matrix &rhs);
+		
+		Matrix(const size_t &row, const size_t &col, const float &init_val);
+		
+		Matrix(const size_t &row, const size_t &col, const float &init_val, const std::string &type);
 
-    void initMatrix(unsigned int row, unsigned int col,float lamd, const string &type);
+		void initMatrix(const size_t &row, const size_t &col, const float &init_val);
 
-    void LoadData(const char *filename);
+		void init_by_data(const std::string &filename);
 
-    void print();
+		void init_by_spare(const std::string &filename, const size_t &row, const size_t &col);
+		
+		void print() const;
 
-    Matrix copyMatrix();
+		Matrix copyMatrix() const;
 
-    Matrix getOneRow(unsigned int iRow);
+		Matrix getOneRow(const size_t &iRow) const;
 
-    Matrix getOneCol(unsigned int jCol);
+		Matrix getOneCol(const size_t &jCol) const;
 
-    void deleteOneRow(unsigned int iRow);
+		void deleteOneRow(const size_t &iRow);
 
-    void deleteOneCol(unsigned int iCol);
+		void deleteOneCol(const size_t &iCol);
 
-    Matrix transposeMatrix();//矩阵形式的转置
+		Matrix transposeMatrix();//矩阵形式的转置
 
-    Matrix addMatrix(const Matrix &matrix1,const Matrix &matrix2);
+		Matrix addMatrix(const Matrix &matrix1,const Matrix &matrix2);
 
-    Matrix subMatrix(const Matrix &matrix1,const Matrix &matrix2);
+		Matrix subMatrix(const Matrix &matrix1,const Matrix &matrix2);
 
-    Matrix multsMatrix(Matrix matrix1,Matrix matrix2);//矩阵形式的相乘
+		Matrix multsMatrix(const Matrix &matrix1, const Matrix &matrix2);//矩阵形式的相乘
 
-    Matrix dotmultsMatrix(Matrix matrix1,Matrix matrix2);//矩阵形式的相乘
+		Matrix dotmultsMatrix(const Matrix &matrix1, const Matrix &matrix2);//矩阵形式的相乘
 
-    double detMatrix();//行列式
+		double detMatrix();//行列式
 
-    Matrix niMatrix();//高斯消元矩阵求逆,特别注意，LU分解不能进行行列式变换
-};
+		Matrix niMatrix();//高斯消元矩阵求逆,特别注意，LU分解不能进行行列式变换
+	};
+}
 #endif // Data_H

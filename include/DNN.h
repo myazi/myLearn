@@ -1,46 +1,124 @@
+#ifndef DNN_H
+#define DNN_H
 #include "MatrixOpe.h"
+#define MAX_LAYER_N 1000
+namespace MLL{
+    
+    class DNN{
+    /**
+    网络参数W,b其中Z,A是为了求解残差方便
+    **/
+    struct parameters
+    {
+        Matrix W;
+        Matrix b;
+        Matrix Z;
+        Matrix A;
+        Matrix D;
+        parameters *next = NULL;
+        parameters *pre = NULL;
+    };
 
-struct parameters;
+    /***
+    复合函数中对应目标函数对相应变量的偏导
+    **/
+    struct grad
+    {
+        Matrix grad_W;
+        Matrix grad_b;
+        Matrix grad_Z;
+        Matrix grad_A;
+        Matrix V_dw;
+        Matrix V_db;
+        Matrix S_dw;
+        Matrix S_db;
+        Matrix V_dw_corrected;
+        Matrix V_db_corrected;
+        Matrix S_dw_corrected;
+        Matrix S_db_corrected;
+        grad *next = NULL;
+        grad *pre = NULL;
+    };
 
-struct grad;
+    /**
+    神经网络超参数
+    **/
+    struct sup_parameters
+    {
+        int layer_dims;//神经网络层数
+        int layer_n[MAX_LAYER_N];//每层神经元个数
+		std::string layer_active[MAX_LAYER_N];//每层激活函数
+    };
 
-struct sup_parameters;
+        private:
+            Matrix _x;//input
 
-int init_parameters(Matrix X,const char *initialization);
+            Matrix _y;//label
 
-void line_forward(parameters *p,double keep_prob);
+            parameters _par;// 定义网络参数全局变量
 
-void sigmoid_forward(parameters *p);
+            grad _gra;//定义梯度全局变量
 
-void relu_forward(parameters *p);
+            sup_parameters _sup_par;//定义网络架构参数全局变量
 
-void line_active_forward(parameters *p,string active, double keep_prob);
+            double _learn_rateing = 0.1;
 
-Matrix model_forward(Matrix X,double *keep_probs);
+            int _iter = 1000;
 
-void sigmoid_backword(parameters *p,grad *g);
+            double _lambd = 0.1;
 
-void relu_backword(parameters *p,grad *g);
+            double _keep_prob = 1;
 
-void line_backword(parameters *p,grad *g, double lambd, double keep_prob);
+            double _beta1 =0.9;
 
-void line_active_backword(parameters *p,grad *g,string active, double lambd, double keep_prob);
+            double _beta2 = 0.99;
 
-void model_backword(Matrix AL,Matrix Y,double lambd,double *keep_probs);
+            double _epsilon = 0.00001;
 
-double cost_cumpter(Matrix AL,Matrix Y,double lambd);
+            bool _print_cost = true;
 
-int updata_parameters_with_gd(double learn_rateing, int t);
+            std::string _optimizer = "gd";
 
-int updata_parameters_with_momentum(double learn_rateing, int t,double beta);
+            std::string _initialization = "he";
 
-int updata_parameters_with_adam(double learn_rateing, int t, double beta1, double beta2, double epsilon);
+            int init_parameters();
 
-int updata_parameters(double learn_rateing, int t, const char *optimizer, double beta1, double beta2, double epsilon);
+            void line_forward(parameters *p,double keep_prob);
 
-int predict(Matrix X,Matrix Y);
+            void sigmoid_forward(parameters *p);
 
-int DNN(Matrix X,Matrix Y,const char *optimizer,double learn_rateing,const char *initialization, double lambd, double keep_prob, \
-        int mini_batch_size,double beta1, double beta2, double epsilon, int iter, bool print_cost);
+            void relu_forward(parameters *p);
 
-int trainDNN();
+            void line_active_forward(parameters *p,std::string active, double keep_prob);
+
+            Matrix model_forward(double *keep_probs);
+
+            void sigmoid_backword(parameters *p,grad *g);
+
+            void relu_backword(parameters *p,grad *g);
+
+            void line_backword(parameters *p,grad *g, double keep_prob);
+
+            void line_active_backword(parameters *p,grad *g,std::string active, double keep_prob);
+
+            void model_backword(Matrix AL,double *keep_probs);
+
+            double cost_cumpter(Matrix AL);
+
+            int updata_parameters_with_gd(int t);
+
+            int updata_parameters_with_momentum(int t);
+
+            int updata_parameters_with_adam(int t);
+
+            int updata_parameters(int t);
+
+            int predict();
+        public:
+            DNN(const std::string &file, const char *optimizer,double learn_rateing,const char *initialization, double lambd, double keep_prob, \
+                int mini_batch_size,double beta1, double beta2, double epsilon, int iter, bool _print_cost);
+
+    typedef std::shared_ptr<DNN> DNNPtr;
+    };
+}
+#endif

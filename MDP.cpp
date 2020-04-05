@@ -12,7 +12,7 @@
 12*12*7
 
 */
-#include "MatrixOpe.h"
+#include "MDP.h"
 #define size 12
 int MDP()
 {
@@ -39,7 +39,7 @@ int MDP()
     };
     double maxreward[size]= {0,0,0,0,0,0,0,0,0,0,0,0};
     int action[size]= {4,0,1,-1,8,-1,10,-1,9,8,9,10};//直接表示可到节点的下标
-    int i=0,j=0,count=0;
+    int i = 0, j = 0, count = 0;
     bool flag=0;
     for(i=0;i<size;i++)
         maxreward[i]=reward[i];
@@ -73,14 +73,14 @@ int MDP()
     }
     for(i=0; i<size; i++)
     {
-        cout<<action[i]+1<<"    ";
+		std::cout<<action[i]+1<<"    ";
     }
-    cout<<endl;
+	std::cout<<std::endl;
     for(i=0; i<size; i++)
     {
-        cout<<maxreward[i]<<"  ";
+		std::cout<<maxreward[i]<<"  ";
     }
-    cout<<endl<<"count="<<count<<endl;
+	std::cout<<std::endl<<"count="<<count<<std::endl;
     return 0;
 }
 
@@ -90,7 +90,6 @@ int MDP()
 */
 /*
 #include <iostream>
-using namespace std;
 #define size 12
 int main()
 {
@@ -138,8 +137,8 @@ int main()
         }
     }
     for(i=0; i<size; i++)
-        cout<<maxreward[i]<<"  ";
-    cout<<endl<<"count="<<count<<endl;
+	std::cout<<maxreward[i]<<"  ";
+	std::cout<<endl<<"count="<<count<<endl;
     return 0;
 }
 */
@@ -152,7 +151,6 @@ int main()
 */
 /*
 #include <iostream>
-using namespace std;
 #define size 12
 #define ACTION 4
 int main()
@@ -208,14 +206,14 @@ int main()
     }
     for(i=0; i<size; i++)
     {
-        cout<<action[i]+1<<"    ";
+		std::cout<<action[i]+1<<"    ";
     }
-    cout<<endl;
+	std::cout<<std::endl;
     for(i=0; i<size; i++)
     {
-        cout<<maxreward[i]<<"  ";
+		std::cout<<maxreward[i]<<"  ";
     }
-    cout<<endl<<"count="<<count<<endl;
+	std::cout<<std::endl<<"count="<<count<<std::endl;
     return 0;
 }
 */
@@ -239,7 +237,6 @@ int main()
 #define error -1
 #define ok 1
 #define size 12
-using namespace std;
 typedef struct arccell
 {
     int adj;//结点间的关系即权
@@ -290,8 +287,8 @@ int main()
     int i=0;
     dfstraverse(g);//深度遍历和广度遍历而选其一，因为公用了全局变量
     for(i=0; i<size; i++)
-        cout<<maxreward[i]<<"  ";
-        cout<<"count="<<count<<endl;
+		std::cout<<maxreward[i]<<"  ";
+	std::cout<<"count="<<count<<std::endl;
     return 0;
 }
 int createudn(mgraph &g)
@@ -304,7 +301,7 @@ int createudn(mgraph &g)
     {
         g.vexs[i]=a[i];
     }
-    cout<<endl;
+	std::cout<<std::endl;
     for(i=0; i<g.vexnum; i++)//初始化没有任何弧和弧的信息
     {
         for(j=0; j<g.vexnum; j++)
@@ -330,7 +327,7 @@ void dfstraverse(mgraph &g)
             s.pop();
         }//由于在上一次使用栈时，防止未能把栈清空，重新清空一下
         dfs(g,i);
-        cout<<"*****************************************************"<<endl;
+		std::cout<<"*****************************************************"<<std::endl;
     }
 }
 void dfs(mgraph &g,int i)
@@ -369,10 +366,10 @@ void dfs(mgraph &g,int i)
         for(j; j>0; j--)
         {
             sumreward[lujin[start]-1]+=g.reward[lujin[j-1]-1];
-            cout<<lujin[j-1]<<"  ";
+			std::cout<<lujin[j-1]<<"  ";
         }
         //用sumreward，栈底元素为下的数组标作记录栈底元素的累积回报
-        cout<<sumreward[lujin[start]-1]<<endl<<"-----------------------------------"<<endl;
+		std::cout<<sumreward[lujin[start]-1]<<endl<<"-----------------------------------"<<std::endl;
         if(maxreward[lujin[start]-1]<sumreward[lujin[start]-1])//更新累积回报
             {
                 maxreward[lujin[start]-1]=sumreward[lujin[start]-1];
@@ -397,7 +394,6 @@ void dfs(mgraph &g,int i)
 #define overflow -2
 #define int_max 9999
 #define size 16
-using namespace std;
 typedef struct arccell
 {
     int adj;//结点间的关系即权
@@ -454,7 +450,7 @@ int main()
     dfstraverse(g);//深度遍历和广度遍历而选其一，因为公用了全局变量
     //bfstraverse(g);
     for(i=0; i<size; i++)
-        cout<<maxreward[i]<<"  ";
+        std::out<<maxreward[i]<<"  ";
     //int v0=0;//选择到各点的初始点
     //shortpath_dij(g,v0);
     return 0;
@@ -468,9 +464,9 @@ int createudn(mgraph &g)
     for(i=0; i<g.vexnum; ++i)//初始化顶点名称
     {
         g.vexs[i]=a[i];
-        cout<<g.vexs[i]<<"  ";
+		std::cout<<g.vexs[i]<<"  ";
     }
-    cout<<endl;
+	std::cout<<std::endl;
     for(i=0; i<g.vexnum; i++)//初始化没有任何弧和弧的信息
     {
         for(j=0; j<g.vexnum; j++)
@@ -498,7 +494,7 @@ void dfstraverse(mgraph &g)
             s.pop();
         }
         dfs(g,i);
-        cout<<"***************************************"<<endl;
+		std::cout<<"***************************************"<<std::endl;
     }
 }
 void dfs(mgraph &g,int i)
@@ -536,9 +532,9 @@ void dfs(mgraph &g,int i)
         for(j; j>0; j--)
         {
             sumreward[lujin[start]-1]+=g.reward[lujin[j-1]-1];
-            cout<<lujin[j-1]<<"  ";
+			std::cout<<lujin[j-1]<<"  ";
         }
-        cout<<sumreward[lujin[start]-1]<<endl<<"-----------------------------------"<<endl;
+		std::cout<<sumreward[lujin[start]-1]<<endl<<"-----------------------------------"<<std::endl;
         if(maxreward[lujin[start]-1]<sumreward[lujin[start]-1])
             {
                 maxreward[lujin[start]-1]=sumreward[lujin[start]-1];
@@ -566,7 +562,6 @@ void dfs(mgraph &g,int i)
 #define overflow -2
 #define int_max 9999
 #define size 12
-using namespace std;
 typedef struct arccell
 {
     int adj;//结点间的关系即权
@@ -617,8 +612,8 @@ int maiwSum=0;n()
     int i=0;
     dfstraverse(g);//深度遍历和广度遍历而选其一，因为公用了全局变量
     for(i=0; i<size; i++)
-        cout<<maxreward[i]<<"  ";
-    cout<<"count="<<count<<endl;
+        std::cout<<maxreward[i]<<"  ";
+    std::cout<<"count="<<count<<endl;
     return 0;
 }
 int createudn(mgraph &g)
@@ -650,8 +645,8 @@ int printf(mgraph &g)
     for(i=0; i<g.vexnum; i++)
     {
         for(j=0; j<g.vexnum; j++)
-            cout<<g.arcs[i][j].adj<<"  ";
-        cout<<endl;
+            std::cout<<g.arcs[i][j].adj<<"  ";
+		std::cout<<std::endl;
     }
     return 0;
 }
@@ -671,7 +666,7 @@ void dfstraverse(mgraph &g)
             s.pop();
         }
         dfs(g,i);
-        cout<<endl<<"***************************************"<<endl;
+		std::cout<<std::endl<<"***************************************"<<std::endl;
     }
 }
 void dfs(mgraph &g,int i)
@@ -734,7 +729,7 @@ void dfs(mgraph &g,int i)
                 //sumreward[lujin[start-k]-1]+=g.reward[lujin[j]-1];
                 cout<<lujin[j]<<"  ";
             }
-            cout<<maxreward[lujin[start-k]-1]<<endl;
+			std::out<<maxreward[lujin[start-k]-1]<<std::endl;
         }
     }
 }
@@ -751,7 +746,6 @@ void dfs(mgraph &g,int i)
 /*
 
 #include <iostream>
-using namespace std;
 #include <stdlib.h>
 #define size 12
 typedef struct subset
@@ -826,8 +820,8 @@ int main()
         q=maxsubset->next;//
     }
     for(i=0; i<size; i++)
-        cout<<maxreward[i]<<"  ";
-    cout<<endl<<"count="<<count<<endl;
+        std::cout<<maxreward[i]<<"  ";
+		std::cout<<std::endl<<"count="<<count<<endl;
     return 0;
 }
 

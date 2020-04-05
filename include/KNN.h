@@ -1,9 +1,27 @@
-int autoNorm(Matrix x);
+#ifndef KNN_H
+#define KNN_H
 
-Matrix cdistances(Matrix test,Matrix x);
+#include "MatrixOpe.h"
+namespace MLL 
+{
+	class KNN
+	{
+		private:
+            Matrix _x;
+            Matrix _y;
+			int _K;
+		public:
+			int autoNorm(Matrix &x);
 
-Matrix getK(Matrix oneTest,Matrix x,int K);
+			Matrix cdistances(const Matrix &test, const Matrix &x);
 
-int classfiy(Matrix &testData,Matrix &testDatay,Matrix &x,Matrix &y,const int &K);
+			Matrix getK(const Matrix &oneTest, const Matrix &x);
 
-int KNN();
+			int classfiy(Matrix &testData,const Matrix &testDatay, Matrix &x, const Matrix &y);
+
+			KNN(const std::string &file, const int &K);
+
+			typedef std::shared_ptr<KNN> KNNPtr;
+	};
+}
+#endif
