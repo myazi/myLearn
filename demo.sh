@@ -17,5 +17,5 @@
 # ./ML HMM hmm.txt
 # ./ML HMM_CWS pku_training.txt
 # ./ML MEMM_CWS pku_training.txt
- ./ML CRF_CWS pku_training.txt
-#./ML LogReg logreg.txt
+# ./ML CRF_CWS pku_training.txt
+./ML LogReg logreg.txt
